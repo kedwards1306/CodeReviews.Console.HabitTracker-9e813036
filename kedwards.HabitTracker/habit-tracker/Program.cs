@@ -25,7 +25,7 @@ namespace habit_tracker
                 tableCmd.ExecuteNonQuery();
 
                 tableCmd.CommandText =
-                    @"CREATE TABLE IF NOT EXISTS habit_logs(
+                    @"CREATE TABLE IF NOT EXISTS habitLogs(
                         Id INTEGER PRIMARY KEY AUTOINCREMENT,
                         HabitId INTEGER NOT NULL,
                         Date TEXT NOT NULL,
@@ -92,7 +92,7 @@ namespace habit_tracker
 
                     var insertLogCmd = connection.CreateCommand();
                     insertLogCmd.CommandText =
-                        "INSERT INTO habit_logs(HabitId, Date, Quantity) VALUES(@habitId, @date, @quantity)";
+                        "INSERT INTO habitLogs(HabitId, Date, Quantity) VALUES(@habitId, @date, @quantity)";
                     insertLogCmd.Parameters.AddWithValue("@habitId", randomHabitId);
                     insertLogCmd.Parameters.AddWithValue("@date", date);
                     insertLogCmd.Parameters.AddWithValue("@quantity", quantity);
@@ -355,7 +355,7 @@ namespace habit_tracker
                 connection.Open();
 
                 var deleteLogsCmd = connection.CreateCommand();
-                deleteLogsCmd.CommandText = "DELETE FROM habit_logs WHERE HabitId = @id";
+                deleteLogsCmd.CommandText = "DELETE FROM habitLogs WHERE HabitId = @id";
                 deleteLogsCmd.Parameters.AddWithValue("@id", id);
                 deleteLogsCmd.ExecuteNonQuery();
 
@@ -379,7 +379,7 @@ namespace habit_tracker
                 connection.Open();
                 var cmd = connection.CreateCommand();
                 cmd.CommandText =
-                    "SELECT Id, Date, Quantity FROM habit_logs WHERE HabitId = @habitId ORDER BY Date DESC";
+                    "SELECT Id, Date, Quantity FROM habitLogs WHERE HabitId = @habitId ORDER BY Date DESC";
                 cmd.Parameters.AddWithValue("@habitId", habit.Id);
 
                 var reader = cmd.ExecuteReader();
@@ -411,7 +411,7 @@ namespace habit_tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText =
-                    "INSERT INTO habit_logs(HabitId, Date, Quantity) VALUES(@habitId, @date, @quantity)";
+                    "INSERT INTO habitLogs(HabitId, Date, Quantity) VALUES(@habitId, @date, @quantity)";
                 tableCmd.Parameters.AddWithValue("@habitId", habit.Id);
                 tableCmd.Parameters.AddWithValue("@date", date);
                 tableCmd.Parameters.AddWithValue("@quantity", quantity);
@@ -442,7 +442,7 @@ namespace habit_tracker
                 connection.Open();
                 var cmd = connection.CreateCommand();
                 cmd.CommandText =
-                    "DELETE FROM habit_logs WHERE Id = @id AND HabitId = @habitId";
+                    "DELETE FROM habitLogs WHERE Id = @id AND HabitId = @habitId";
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@habitId", habit.Id);
                 int rows = cmd.ExecuteNonQuery();
@@ -470,7 +470,7 @@ namespace habit_tracker
 
                 var checkCmd = connection.CreateCommand();
                 checkCmd.CommandText =
-                    "SELECT COUNT(*) FROM habit_logs WHERE Id = @id AND HabitId = @habitId";
+                    "SELECT COUNT(*) FROM habitLogs WHERE Id = @id AND HabitId = @habitId";
                 checkCmd.Parameters.AddWithValue("@id", id);
                 checkCmd.Parameters.AddWithValue("@habitId", habit.Id);
                 int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
@@ -490,7 +490,7 @@ namespace habit_tracker
 
                 var cmd = connection.CreateCommand();
                 cmd.CommandText =
-                    "UPDATE habit_logs SET Date = @date, Quantity = @quantity WHERE Id = @id AND HabitId = @habitId";
+                    "UPDATE habitLogs SET Date = @date, Quantity = @quantity WHERE Id = @id AND HabitId = @habitId";
                 cmd.Parameters.AddWithValue("@date", date);
                 cmd.Parameters.AddWithValue("@quantity", quantity);
                 cmd.Parameters.AddWithValue("@id", id);
@@ -560,7 +560,7 @@ namespace habit_tracker
         public string Unit { get; set; }
     }
 
-    public class habit_logs
+    public class habitLogs
     {
         public int ID { get; set; }
         public int HabitId { get; set; }
